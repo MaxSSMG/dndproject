@@ -3,15 +3,24 @@ import path from 'node:path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
-function copySqliteWasm() {
+function copySqliteAssets() {
   return {
-    name: 'copy-sqlite-wasm',
+    name: 'copy-sqlite-assets',
     writeBundle() {
-      const sourcePath = path.resolve(__dirname, 'node_modules/@sqlite.org/sqlite-wasm/dist/sqlite3.wasm')
-      const destinationPath = path.resolve(__dirname, 'dist/assets/sqlite3.wasm')
+      const assetsDir = path.resolve(__dirname, 'dist/assets')
+      const sourceFiles = [
+        'sqlite3.wasm',
+        'sqlite3-opfs-async-proxy.js',
+      ]
 
-      fs.mkdirSync(path.dirname(destinationPath), { recursive: true })
-      fs.copyFileSync(sourcePath, destinationPath)
+      fs.mkdirSync(assetsDir, { recursive: true })
+
+      for (const fileName of sourceFiles) {
+        const sourcePath = path.resolve(__dirname, 'node_modules/@sqlite.org/sqlite-wasm/dist', fileName)
+        const destinationPath = path.resolve(assetsDir, fileName)
+
+        fs.copyFileSync(sourcePath, destinationPath)
+      }
     },
   }
 }
@@ -32,5 +41,5 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  plugins: [vue(), copySqliteWasm()],
+  plugins: [vue(), copySqliteAssets()],
 })
