@@ -1,31 +1,20 @@
-import { useSQLite } from "@/composables/useSQLite";
+import { useJsonStore } from "@/composables/useJsonStore";
 
 export function useMisc() {
-    const { executeQuery, demoData } = useSQLite();
-    async function drop() {
-        const result = await executeQuery(`
-            PRAGMA foreign_keys = OFF;
+  const { resetStore, seedDemoData } = useJsonStore();
 
-            DROP TABLE IF EXISTS Personaje_tiene_Item;
-            DROP TABLE IF EXISTS Personaje_tiene_Habilidad;
-            DROP TABLE IF EXISTS Clase_tiene_Habilidad;
-            DROP TABLE IF EXISTS Campanya_tiene_Personaje;
+  async function drop() {
+    resetStore();
+    console.log("Datos JSON reiniciados");
+  }
 
-            DROP TABLE IF EXISTS Item;
-            DROP TABLE IF EXISTS Stats;
-            DROP TABLE IF EXISTS Habilidad;
-            DROP TABLE IF EXISTS Clase;
-            DROP TABLE IF EXISTS Personaje;
-            DROP TABLE IF EXISTS Campanya;
-            DROP TABLE IF EXISTS Usuario;
+  async function demoData() {
+    seedDemoData();
+    console.log("Datos demo asegurados");
+  }
 
-            PRAGMA foreign_keys = ON;
-        `);
-        console.log("Tablas borradas")
-        return result
-    }
-    return {
-        drop,
-        demoData,
-    };
+  return {
+    drop,
+    demoData,
+  };
 }

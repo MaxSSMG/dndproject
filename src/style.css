@@ -479,6 +479,11 @@ Footer {
   border-radius: 10px;
 }
 
+.characterOverview {
+  height: fit-content;
+  padding-bottom: 10px;
+}
+
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;

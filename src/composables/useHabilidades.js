@@ -1,31 +1,14 @@
 import { ref } from "vue";
-import { useSQLite } from "@/composables/useSQLite";
+import { useJsonStore } from "@/composables/useJsonStore";
 
 export function useHabilidades() {
   const habilidades = ref(null);
 
-  const { executeQuery } = useSQLite();
+  const { loadHabilidades: loadClassHabilidades } = useJsonStore();
 
   async function loadHabilidades(id) {
     try {
-      const result = await executeQuery(
-        `SELECT
-          *
-        FROM Habilidad h
-        LEFT JOIN Clase_tiene_Habilidad chh ON h.id = chh.Habilidad_id
-        WHERE chh.Clase_id = ?`,
-        [id]
-      ); 
-      
-      if (result) {
-        habilidades.value = result.result.resultRows.map((row) => ({
-          id: row[0],
-          nombre: row[1],
-          descripcion: row[2],
-          danyo: row[3],
-          bonus: row[4],
-        }));
-      }
+      habilidades.value = loadClassHabilidades(id);
     } catch (err) {
       console.error("Failed to load habilidad:", err);
     }

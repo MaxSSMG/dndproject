@@ -40,10 +40,10 @@ onMounted(async () => {
 <template>
   <Header />
   <input id="campaignName" type="text" :value="campaign?.nombre" @keyup.enter="handleEdit()" />
-  <div class="content characterSelect row">
-    <div v-for="character in characters" :key="character.charId">
-      <router-link :to="'/Character/' + character.charId" 
-        class="d-flex flex-column col-4 justify-content-center p-3">
+  <div class="content characterSelect grid gap-3">
+    <div class="d-flex flex-column character characterOverview" v-for="character in characters" :key="character.charId">
+      <router-link style="text-decoration: none; color: white;" :to="'/Character/' + character.charId" 
+        class="p-3">
         <div class="d-flex flex-row">
           <img src="../assets/placeholder.png" alt="" class="placeholder-charselect" />
         </div>

@@ -42,7 +42,7 @@ onMounted(async () => {
         <div class="d-flex flex-row">{{ character.campanya }}</div>
       </div>
       <div>
-        <button @click="handleAdding(character.charId)">Añadir a la campaña</button>
+        <button class="btn btn-danger" @click="handleAdding(character.charId)">Añadir a la campaña</button>
       </div>
     </div>
     </div>
